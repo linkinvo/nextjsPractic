@@ -18,7 +18,7 @@ export const setIdentity = (response: any) => action(SET_IDENTITY_USER, { respon
 export const getIdentity = (response: any)=> action(GET_IDENTITY_USER, response)// data: any
 
 
-// export const SET_USER_INFO = 'SET_USER_INFO';
-// export const LOGOUT = 'LOGOUT';
-// const setUserInfo = (identity: IIdentity, token: string) => action(SET_USER_INFO, { identity, token });
-// const logout = () => action(LOGOUT);
+export const SET_USER_INFO = 'SET_USER_INFO';
+export const LOGOUT = 'LOGOUT';
+export const setUserInfo = (identity: IIdentity, token: string) => action(SET_USER_INFO, { identity, token });
+const logout = () => action(LOGOUT);

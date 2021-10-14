@@ -20,7 +20,7 @@ import userEntity from "./UsersSaga"
 
      @action()
     public * sagaGetPropertyById(data) {
-             yield call(this.xRead, '/properties/' + data);
+             yield call(this.xRead, '/properties/' + data.id);
      }
 }
 

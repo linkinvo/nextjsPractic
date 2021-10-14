@@ -96,9 +96,9 @@ export default function Header( {props} ) {
               {/* <Link href={"/"} >
                 <a className="mt-3 block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">Login</a>
               </Link> */}
-              <Link href={"/logout"} >
-              <a href="" className="mt-3 block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">Sign Out</a>
-              </Link>
+              {/* <Link href={"/"} > */}
+              <a href="/" className="mt-3 block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">Sign Out</a>
+              {/* </Link> */}
             </div>
             <button type="button" onClick={() => { setIsOpenProfile(!isOpenProfile) }} className={`${!isOpenProfile ? 'sm:hidden' : 'sm:block'} sm:fixed sm:opacity-1 sm:inset-0 sm:w-full sm:h-full sm:z-40`}></button>
 

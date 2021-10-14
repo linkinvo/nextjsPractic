@@ -1,24 +1,37 @@
+import { setUserInfo } from 'redux/store/actions';
 import { call, put, select, take } from "redux-saga/effects";
 import  action  from 'redux/decorators/action'
+import validator from 'validator';
 import { ENTITIES, HTTP_METHOD, IIdentity } from "src/common";
 import Entity from "./Entity";
-import { setIdentity } from "redux/store/actions";
+import Router from "next/router";
+
 
 
 class Identity extends Entity {
   constructor() {
-    super(ENTITIES.IDENTITY)
+    super()
   }
 
   @action()
   public * sagaLogin(data) {
-    console.log("* loginUser-data",data)
+    console.log("DATA",data)
+    if (validator.isEmail(data.email) && data.password !== '') {
+        const result = yield call(this.xSave, '/users/login', data);
+        if (result.success === true && result.response.error === false) {
+            yield put(setUserInfo(result.response.identity.payload, result.response.identity.token))
+            yield call(Router.push, '/');
+        }
+    }
+}
+  // public * sagaLogin(data) {
+    // console.log("* loginUser-data",data)
 
-    yield call(this.xFetch, '/users/login', HTTP_METHOD.POST, data)
-    yield put(setIdentity(data));
+    // yield call(this.xFetch, '/users/login', HTTP_METHOD.POST, data)
+    // yield put(setIdentity(data));
     // const { payload } = yield call(this.xFetch, '/users/login', HTTP_METHOD.POST, data)
     // yield put(setIdentity(payload.data));
-  }
+  // }
 
   @action()
   public * register(data) {

@@ -13,7 +13,7 @@ export const rootWatcher = function* root() {
   console.log("rootWatcher", sagaAll)
 
   yield all(Object.values(sagaAll).map(
-    entity => all(Object.values(entity).map((saga: any) => call(saga.saga)))
+    entity => all(Object.values(entity).map((saga: any) => saga.saga ? call(saga.saga) : ''))
     ));  
 
 }

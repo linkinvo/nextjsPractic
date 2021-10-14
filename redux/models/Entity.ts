@@ -24,7 +24,7 @@ export default class Entity {
     Entity.addAction = Entity.addAction.bind(this);
     Entity.getActions = Entity.getActions.bind(this);
 
-    this.initAction()
+    // this.initAction()
   }
 
   public getSchema() {
@@ -34,38 +34,43 @@ export default class Entity {
     return this.entityName;
   }
 
-  public initAction() {
-    const propertyNames = Object.getOwnPropertyNames(this.constructor.prototype);
-    const sagas = propertyNames.filter(methods => methods.startsWith('saga'));
-    const listObj = {};
+  // public initAction() {
+  //   const propertyNames = Object.getOwnPropertyNames(this.constructor.prototype);
+  //   const sagas = propertyNames.filter(methods => methods.startsWith('saga'));
+  //   const listObj = {};
 
-    sagas.forEach(methods => {
-      this[methods] = this[methods].bind(this)
-        listObj[methods] = {
-          'action': function (data = {}) {
-            console.log("ACtion-dataS", data)
-            console.log("ACtion-methods",methods)
-            return action(methods, data)
-          },
-          'saga': this[methods]
-        };
-    });
-    Entity.actions[this.className] = listObj
-    console.log("listOObbj",listObj)
-  }
+  //   sagas.forEach(methods => {
+  //     this[methods] = this[methods].bind(this)
+  //       listObj[methods] = {
+  //         'action': function (data = {}) {
+  //           console.log("ACtion-dataS", data)
+  //           console.log("ACtion-methods",methods)
+  //           return action(methods, data)
+  //         },
+  //         'saga': this[methods]
+  //       };
+  //   });
+  //   Entity.actions[this.className] = listObj
+  //   console.log("listOObbj",listObj)
+  // }
 
   public static addAction(saga) {
     Entity.actions.push(saga);
   }
 
   public static getActions(actionName: string = null) {
-    const listSag = [];
-    Object.keys(Entity.actions).map(entity => Object.keys(Entity.actions[entity])
-    .map(method => listSag.push(Entity.actions[entity][method].saga()))
-    )
+    // const listSag = [];
+    // Object.keys(Entity.actions).map(entity => Object.keys(Entity.actions[entity])
+    // .filter(method => typeof Entity.actions[entity][method].saga == 'function')
+    // .map(method => listSag.push(Entity.actions[entity][method].saga()))
+    // )
+    // console.log("listSag", listSag)
+    // console.log('Entity.actions',Entity.actions)
+    return Entity.actions;
+  }
 
-    return Entity.actions ;
-    console.log("listSag", listSag)
+  public getOneAction(action) {
+    return Entity.getActions()[this.className][action].decoratorFunction;
   }
 
 
@@ -101,9 +106,9 @@ export default class Entity {
       );
   }
 
-  public * actionRequest(endpoint?: string, method?: HTTP_METHOD, data?: any) {
+  public * actionRequest(endpoint?: string, method?: HTTP_METHOD, data?: any, token?: string ) {
     
-    const token = yield select((state: any) => state?.identity?.userToken)
+    // const token = yield select((state: any) => state?.identity?.userToken)
     // console.log("TOKEN * actionRequest",token)
     const result = yield call(this.xFetch, endpoint, method, data, token )
 

@@ -4,17 +4,16 @@ import { connect } from 'react-redux';
 import wrapper from 'redux/store/store';
 import React from 'react'
 import Entity from 'redux/models/Entity';
-import PropertyEntity from 'redux/models/PropertyEntity'
+import propertyEntity from 'redux/models/PropertyEntity'
 import saga from 'redux/decorators/saga'
 
 interface MyProps {
   properties,
   identity,
-  sagaGetAllProperties;
 }
 
 // @saga(PropertyEntity, ['fetchUsers', 'updateUser'])
-@saga(PropertyEntity)
+@saga(propertyEntity)
 class Home extends React.Component<MyProps> {
   constructor(props) {
     super(props)
@@ -23,8 +22,8 @@ class Home extends React.Component<MyProps> {
   
   //@ts-ignore
   private static getInitialProps = wrapper.getInitialAppProps(store => () => {
-    // const action = Entity.getActions()['PropertyEntity'].sagaGetAllProperties.action
-    const action = PropertyEntity.getAction('sagaGetAllProperties');
+    // const action = Entity.getActions()['PropertyEntity'].sagaGetAllProperties.decoratorFunction
+    const action = propertyEntity.getOneAction('sagaGetAllProperties');
     // const actions = PropertyEntity.getAction();
 
     store.dispatch(action());
@@ -110,5 +109,5 @@ const mapStateToProps = (state, props) => {
     identity: state.identity,
   }
 }
-
-export default connect(mapStateToProps , PropertyEntity.initAction())(Home)
+//PropertyEntity.initAction()
+export default connect(mapStateToProps , )(Home)

@@ -19,7 +19,6 @@ import { END } from 'redux-saga';
 }
 
 App.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
-
   // if (store.getState().identity.id === '') {
   //   store.dispatch(btnLoginClick({
   //     email: "user7.man@gmail.ru",

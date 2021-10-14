@@ -10,47 +10,55 @@ import wrapper from "redux/store/store";
 
 
 interface MyProps {
-    // Identity.login: (response: any) => void;
     sagaLogin: any;
 }
 
-interface MyState {
-    email: string,
-    password: string
-}
+// interface MyState {
+//     email: string,
+//     password: string
+// }
 
 @saga(Identity)
-export class Login extends React.Component<MyProps, MyState> {
+export class Login extends React.Component<MyProps> {
+    // constructor(props) {
+    //     super(props);
+    //     this.state = {
+    //         email: '',
+    //         password: ''
+    //     };
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: ''
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
+    //     this.handleChange = this.handleChange.bind(this);
+    //     this.handleSubmit = this.handleSubmit.bind(this);
+    // }
 //@ts-ignore
-private static getInitialProps = wrapper.getInitialAppProps(store => () => {
-    const action = Entity.getActions()['Identity'].sagaLogin.action
-})
+// private static getInitialProps = wrapper.getInitialAppProps(store => () => {
+    // const action = Entity.getActions()['Identity'].sagaLogin.action
+    // const action = Identity.getOneAction('sagaLogin');
+// })
 
-    handleChange(event) {
-        const target = event.target;
-        const name = target.name;
-        this.setState<typeof name>({
-            [name]: target.value
-        });
-    }
-    handleSubmit(event) {
-        const  {sagaLogin}  = this.props;
-        console.log("{ sagaLogin }", this.props )
+    // handleChange(event) {
+    //     const target = event.target;
+    //     const name = target.name;
+    //     this.setState<typeof name>({
+    //         [name]: target.value
+    //     });
+    // }
+    // handleSubmit(event) {
+    //     const  {sagaLogin}  = this.props;
+    //     console.log("{ sagaLogin }", {sagaLogin} )
+    //     event.preventDefault();
+    //     sagaLogin(this.state);
+    //     console.log("LOGIN", sagaLogin)
+    //     Router.push('/');
+    // }
+
+
+    loginUser = async event => {
         event.preventDefault();
-        sagaLogin(this.state);
-        console.log("LOGIN", sagaLogin)
-        Router.push('/');
+        this.props.sagaLogin({
+            email: event.target.email.value,
+            password: event.target.password.value,
+        });
     }
 
     render() {
@@ -105,7 +113,7 @@ private static getInitialProps = wrapper.getInitialAppProps(store => () => {
                                     </h3>
                                     <br />
                                     {/* onSubmit={this.handleSubmit}  */}
-                                    <form onSubmit={this.handleSubmit}  >
+                                    <form onSubmit={this.loginUser}  >
                                         <div className="mb-1 sm:mb-2">
                                             <label
                                                 htmlFor="email"
@@ -115,7 +123,7 @@ private static getInitialProps = wrapper.getInitialAppProps(store => () => {
                                             </label>
                                             <input
                                                 placeholder="john.doe@example.org"
-                                                onChange={this.handleChange}
+                                                // onChange={this.handleChange}
                                                 required
                                                 type="text"
                                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
@@ -133,7 +141,7 @@ private static getInitialProps = wrapper.getInitialAppProps(store => () => {
                                             </label>
                                             <input
                                                 placeholder="password"
-                                                onChange={this.handleChange}
+                                                // onChange={this.handleChange}
                                                 required
                                                 type="password"
                                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
@@ -168,14 +176,21 @@ private static getInitialProps = wrapper.getInitialAppProps(store => () => {
     }
 }
 
-const mapStateToProps = (state) => {
-    // console.log("LOGIN-STATE",state)
+const mapDispatchToProps = (dispatch) => {
+    const action = Identity.getOneAction('sagaLogin')
+
     return {
-        email: '',
-        password: ''
+        // email: '',
+        // password: ''
+        sagaLogin: (data) => dispatch(action({
+            email: data.email,
+            password: data.password
+        }))
     }
 }
-
-export default connect(mapStateToProps, {
-    ...Identity.getAction()
-})(Login);
+//Identity.getOneAction('sagaLogin')
+export default connect(null,mapDispatchToProps, 
+//     {
+//     ...Identity.getOneAction(['sagaLogin'])
+// }
+)(Login);

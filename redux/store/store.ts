@@ -4,7 +4,7 @@ import { createWrapper, HYDRATE } from 'next-redux-wrapper'
 import { fromJS, Map } from 'immutable';
 import {rootWatcher} from '../saga/index'
 import { serialize, deserialize } from 'json-immutable';
-import { GET_IDENTITY_USER, SET_ALL_DATA_SCHEMA, SET_IDENTITY_USER } from 'redux/store/actions';
+import { GET_IDENTITY_USER, LOGOUT, SET_ALL_DATA_SCHEMA, SET_IDENTITY_USER, SET_USER_INFO } from 'redux/store/actions';
 import { IIdentity } from 'src/common';
 
 const bindMiddleware = (middleware) => {
@@ -44,59 +44,37 @@ function entities(state = initialEntities, action: any) {
 }
 
 const initialState: IIdentity = {
-    id: 365,
-    email: "user7.man@gmail.ru",
-    role: "ADMIN",
-    phone: "+380681353543",
-    firstName: "User7",
-    lastName: "User7",
+    id: '',
+    email: "",
+    role: "",
+    phone: "",
+    firstName: "",
+    lastName: "",
     userToken: ""
     // userToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzY1LCJmaXJzdE5hbWUiOiJVc2VyNyIsImxhc3ROYW1lIjoiVXNlcjciLCJyb2xlIjoiQURNSU4iLCJlbWFpbCI6InVzZXI3Lm1hbkBnbWFpbC5ydSIsInBob25lIjoiKzM4MDY4MTM1MzU0MyIsImlhdCI6MTYzNDEzNjE1M30.fF3kFlXB1a6ScJExnlPvD8kQuP6qeA9cFonDWUAiFM0",
   };
 
-const identity = (state = initialState, action: any) => {
-    
-    switch (action) {
-        case SET_IDENTITY_USER: {
-            if (action) {
-                return { 
-                    ...state, 
-                    ...action,
-                };
+
+const identity = (state = initialState, action) => {
+    switch (action.type) {
+        case SET_USER_INFO: {
+            return {
+                ...state,
+                ...action.identity,
+                userToken: action.token
             }
         }
-                // case GET_IDENTITY_USER: {
-        //     console.log("GET_IDENTITY_USER",GET_IDENTITY_USER)
-        //     if(action.payload) {
-        //         return {
-        //             ...state, 
-        //             ...action.identity,
-        //             userToken: action.token,
-        //             payload: {...action.payload }
-        //          };
-        //     }
-        //     return {...state}
-        // }
-        // default: {
-        //     return state;
-        // }
+        case LOGOUT: {
+            return {
+                ...initialState
+            }
+        }
+
+        default:
+            return state
     }
-    return state
 }
 
-// // function identity(state, action) {
-// //   switch (action.type) {
-// //     case SET_USER_INFO: {
-// //       return {
-// //         ...state,
-// //         ...action.identity,
-// //         userToken: action.token,
-// //       };
-// //     }
-// //     default:
-// //       return state;
-// //   }
-// // }
 
 const appReducer = combineReducers({
     identity,
