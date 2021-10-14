@@ -1,0 +1,24 @@
+{
+  "development": {
+    "username": "nextjs",
+    "password": "nextjs",
+    "database": "nextjs",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "nextjs",
+    "password": "nextjs",
+    "database": "nextjs",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "nextjs",
+    "password": "nextjs",
+    "database": "nextjs",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
+
