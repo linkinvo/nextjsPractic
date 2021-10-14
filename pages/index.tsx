@@ -28,7 +28,6 @@ class Home extends React.Component<MyProps> {
     // const actions = PropertyEntity.getAction();
 
     store.dispatch(action());
-    // store.dispatch(action());
     // store.dispatch(PropertyEntity.initAction().sagaGetAllProperties());
   });
 

@@ -48,9 +48,6 @@ export default class Entity {
             return action(methods, data)
           },
           'saga': this[methods]
-          // 'saga': function (data = []) {
-          //   return saga(methods, data)
-          // }
         };
     });
     Entity.actions[this.className] = listObj
