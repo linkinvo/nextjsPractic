@@ -66,7 +66,7 @@ export default function Header( {props} ) {
                   <Link href={"/login"} >
                     <a className="block px-3 py-1 mt-1 hover:bg-gray-700 rounded font-medium text-white sm:mt-0 sm:text-sm sm:px-2 sm:ml-2 xl:text-gray-900 xl:hover:bg-gray-200 ">Login</a>
                   </Link>
-                  <Link href={"/register"} >
+                  <Link href={"/registration"} >
                     <a className="block px-3 py-1 mt-1 hover:bg-gray-700 rounded font-medium text-white sm:mt-0 sm:text-sm sm:px-2 sm:ml-2 xl:text-gray-900 xl:hover:bg-gray-200 ">Register</a>
                   </Link>
                 </>

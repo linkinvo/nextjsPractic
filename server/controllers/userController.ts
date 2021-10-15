@@ -30,10 +30,9 @@ export default class UserController extends BaseContext {
   @POST()
   public registration(req: Request, res: Response, next: NextFunction) {
     const { passport } = this.di;
-
     return passport.authenticate('local-signup', (errors, identity) => {
-  
-      if (identity) {
+  console.log("Registration controller passport", identity)
+ if (identity) {
         res.json({
           identity,
           message: 'Registration completed successfully!!! You can now log in.',
@@ -49,28 +48,6 @@ export default class UserController extends BaseContext {
       }
     })(req, res, next);
   }
-
-
-  // @POST()
-  // @route('/auth')
-  // public jwt(req:Request, res: Response, next: NextFunction) {
-  //   console.log('AUTH!!!!!!!!!!!!!!!!!!');
-  //   const { passport } = this.di;
-  //   console.log(2);
-
-  //   return passport.authenticate('jwt', (err, identity) => {
-  //     const isLogged = identity && identity.id;
-  //     req.identity = identity;
-  //     if(!isLogged) {
-  //       // req.session.identity = identity;
-  //     }
-  //     const isAllow = undefined
-  //     if(!isAllow) {
-  //       return res.json(null, console.log('NOT FOUND 404'))
-  //     }
-  //   })
-  // }
-
 
   @route('/save/:id')
   @POST()

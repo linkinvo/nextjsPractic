@@ -5,29 +5,25 @@ import { AppProps } from 'next/app';
 import wrapper  from '../redux/store/store';
 import { useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
-// import { btnLoginClick } from 'redux/models/identity';
+import { setUserInfo } from 'redux/store/actions';
+import { getCookieParser } from 'next/dist/server/api-utils';
 
 
 
  function App({ Component, pageProps }) {
-  // const dispatch = useDispatch()
-  // dispatch(btnLoginClick({
-  //     email: "user7.man@gmail.ru",
-  //     password: "user12345"
-  // }));
   return <Component {...pageProps} />;
 }
 
 App.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
-  // if (store.getState().identity.id === '') {
-  //   store.dispatch(btnLoginClick({
-  //     email: "user7.man@gmail.ru",
-  //     password: "user12345"
-  //   }))
-  // }
+  
+  if(ctx.req && ctx.req.hasOwnProperty('identity')){
+    store.dispatch(setUserInfo(ctx.req['identity']))
+    console.log("CTX-@-#-#AAAAAAAAAAAA",  ctx.req)
+  }
+
+
 
   (store).runSaga();
-
   //   1. Wait for all page actions to dispatch
   const pageProps = {
       ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),

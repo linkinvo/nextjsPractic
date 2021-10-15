@@ -1,11 +1,11 @@
 export interface IIdentity {
     id: any;
-    userToken?: string;
     firstName?: string;
     lastName?: string;
     email?: string;
     role?: string;
     phone?: string;
+    token?: string;
 }
 
 export interface IProperty {

@@ -64,7 +64,7 @@ export default class SignInStrategy extends BaseContext {
         
         user.userToken = token;
         user.save();
-        req.session.identity = payload;
+        // req.session.identity = payload;
         
         return done(null, {payload, token});
     }

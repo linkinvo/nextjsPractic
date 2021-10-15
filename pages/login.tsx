@@ -11,47 +11,11 @@ import wrapper from "redux/store/store";
 
 interface MyProps {
     sagaLogin: any;
+    logout
 }
-
-// interface MyState {
-//     email: string,
-//     password: string
-// }
 
 @saga(Identity)
 export class Login extends React.Component<MyProps> {
-    // constructor(props) {
-    //     super(props);
-    //     this.state = {
-    //         email: '',
-    //         password: ''
-    //     };
-
-    //     this.handleChange = this.handleChange.bind(this);
-    //     this.handleSubmit = this.handleSubmit.bind(this);
-    // }
-//@ts-ignore
-// private static getInitialProps = wrapper.getInitialAppProps(store => () => {
-    // const action = Entity.getActions()['Identity'].sagaLogin.action
-    // const action = Identity.getOneAction('sagaLogin');
-// })
-
-    // handleChange(event) {
-    //     const target = event.target;
-    //     const name = target.name;
-    //     this.setState<typeof name>({
-    //         [name]: target.value
-    //     });
-    // }
-    // handleSubmit(event) {
-    //     const  {sagaLogin}  = this.props;
-    //     console.log("{ sagaLogin }", {sagaLogin} )
-    //     event.preventDefault();
-    //     sagaLogin(this.state);
-    //     console.log("LOGIN", sagaLogin)
-    //     Router.push('/');
-    // }
-
 
     loginUser = async event => {
         event.preventDefault();
@@ -59,6 +23,11 @@ export class Login extends React.Component<MyProps> {
             email: event.target.email.value,
             password: event.target.password.value,
         });
+    }
+
+    logout() {
+        const {logout} = this.props;
+        logout()
     }
 
     render() {
@@ -177,7 +146,7 @@ export class Login extends React.Component<MyProps> {
 }
 
 const mapDispatchToProps = (dispatch) => {
-    const action = Identity.getOneAction('sagaLogin')
+    const action = Identity.getListAction('sagaLogin')
 
     return {
         // email: '',

@@ -4,7 +4,7 @@ import { createWrapper, HYDRATE } from 'next-redux-wrapper'
 import { fromJS, Map } from 'immutable';
 import {rootWatcher} from '../saga/index'
 import { serialize, deserialize } from 'json-immutable';
-import { GET_IDENTITY_USER, LOGOUT, SET_ALL_DATA_SCHEMA, SET_IDENTITY_USER, SET_USER_INFO } from 'redux/store/actions';
+import { LOGOUT, SET_ALL_DATA_SCHEMA, SET_USER_INFO } from 'redux/store/actions';
 import { IIdentity } from 'src/common';
 
 const bindMiddleware = (middleware) => {
@@ -50,8 +50,7 @@ const initialState: IIdentity = {
     phone: "",
     firstName: "",
     lastName: "",
-    userToken: ""
-    // userToken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzY1LCJmaXJzdE5hbWUiOiJVc2VyNyIsImxhc3ROYW1lIjoiVXNlcjciLCJyb2xlIjoiQURNSU4iLCJlbWFpbCI6InVzZXI3Lm1hbkBnbWFpbC5ydSIsInBob25lIjoiKzM4MDY4MTM1MzU0MyIsImlhdCI6MTYzNDEzNjE1M30.fF3kFlXB1a6ScJExnlPvD8kQuP6qeA9cFonDWUAiFM0",
+    token: ""
   };
 
 

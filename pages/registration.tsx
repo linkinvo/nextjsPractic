@@ -1,4 +1,8 @@
 import Link from "next/link";
+
+
+
+
 const registration = () => {
   return (
 <>

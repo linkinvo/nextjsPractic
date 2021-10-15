@@ -23,8 +23,6 @@ export default class Entity {
     
     Entity.addAction = Entity.addAction.bind(this);
     Entity.getActions = Entity.getActions.bind(this);
-
-    // this.initAction()
   }
 
   public getSchema() {
@@ -34,45 +32,17 @@ export default class Entity {
     return this.entityName;
   }
 
-  // public initAction() {
-  //   const propertyNames = Object.getOwnPropertyNames(this.constructor.prototype);
-  //   const sagas = propertyNames.filter(methods => methods.startsWith('saga'));
-  //   const listObj = {};
-
-  //   sagas.forEach(methods => {
-  //     this[methods] = this[methods].bind(this)
-  //       listObj[methods] = {
-  //         'action': function (data = {}) {
-  //           console.log("ACtion-dataS", data)
-  //           console.log("ACtion-methods",methods)
-  //           return action(methods, data)
-  //         },
-  //         'saga': this[methods]
-  //       };
-  //   });
-  //   Entity.actions[this.className] = listObj
-  //   console.log("listOObbj",listObj)
-  // }
-
   public static addAction(saga) {
     Entity.actions.push(saga);
   }
 
   public static getActions(actionName: string = null) {
-    // const listSag = [];
-    // Object.keys(Entity.actions).map(entity => Object.keys(Entity.actions[entity])
-    // .filter(method => typeof Entity.actions[entity][method].saga == 'function')
-    // .map(method => listSag.push(Entity.actions[entity][method].saga()))
-    // )
-    // console.log("listSag", listSag)
-    // console.log('Entity.actions',Entity.actions)
     return Entity.actions;
   }
 
-  public getOneAction(action) {
+  public getListAction(action) {
     return Entity.getActions()[this.className][action].decoratorFunction;
   }
-
 
   protected xFetch(endpoint: string, method: HTTP_METHOD, data = {}, token?: string){
     let fullUrl = next.baseUrl + '/api' + endpoint; 
@@ -84,6 +54,7 @@ export default class Entity {
         Authorization: 'bearer ' + token, // get token from cookies
       },
     };
+    console.log("PARAMS", params)
 
     if (method !== HTTP_METHOD.GET) {
       params['headers']['content-type'] = 'application/json';
@@ -107,9 +78,8 @@ export default class Entity {
   }
 
   public * actionRequest(endpoint?: string, method?: HTTP_METHOD, data?: any, token?: string ) {
-    
     // const token = yield select((state: any) => state?.identity?.userToken)
-    // console.log("TOKEN * actionRequest",token)
+    
     const result = yield call(this.xFetch, endpoint, method, data, token )
 
     const schema = (Array.isArray(result.response.data)? [this.getSchema()] : this.getSchema())
