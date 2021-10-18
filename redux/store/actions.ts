@@ -11,7 +11,9 @@ export function action(type: string, payload = {}): Action {
 export const SET_ALL_DATA_SCHEMA = 'SET_ALL_DATA_SCHEMA';
 export const SET_USER_INFO = 'SET_USER_INFO';
 export const LOGOUT = 'LOGOUT';
+export const GET_SSR_DATA_INFO = 'GET_SSR_DATA_INFO'
 
 export const setAllDataAC = (entityName: string, response: any) => action(SET_ALL_DATA_SCHEMA, { entityName, response });
 export const setUserInfo = (identity: IIdentity, token?: string) => action(SET_USER_INFO, { identity, token });
 export const logout = () => action(LOGOUT);
+export const getSSRDataInfo = (payload: any) => action(GET_SSR_DATA_INFO, payload);

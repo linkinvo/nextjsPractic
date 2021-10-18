@@ -1,6 +1,8 @@
+
 import BaseContext from "../baseContext";
 import { route, GET, POST } from "awilix-express";
 import { Request, Response, NextFunction } from 'express';
+import statusCode from '../../http-status'
 
 @route("/api/properties")
 export default class PropertiesController extends BaseContext {
@@ -14,28 +16,30 @@ export default class PropertiesController extends BaseContext {
   @GET()
   getAllProperti(req: Request, res: Response) {
     const { PropertiesService } = this.di;
-
-    const result = PropertiesService.findAll()
-    .then(data => {
-      const props = {
-          data: data,
-          message: "properties are found successfully",
-          error: false
-      }
-      res.send(props);
+    // const result = PropertiesService.findAll()
+    // console.log('RESULT',result)
+    PropertiesService.findAll()
+    .then((data) => {
+      // const props = {
+      //     data: data,
+      //     message: "properties are found successfully",
+      //     error: false
+      // }
+      // res.send(props);
+      res.answer(data, 'properties are found successfully', statusCode.OK)
   })
-  .catch(err => {
-      const props = {
-          data: null,
-          message: err,
-          error: true
-      }
-      res.status(500).send(props);
+  .catch((err) => {
+      // const props = {
+      //     data: null,
+      //     message: err,
+      //     error: true
+      // }
+      // res.status(500).send(props);
+      res.answer(null, err, "properties can't be found", 500);
   });
-    return result
+    // return result
   }
 
-  
 
 
   @route('/:id')
@@ -43,24 +47,26 @@ export default class PropertiesController extends BaseContext {
   getById(req: Request, res: Response) {
     const { PropertiesService } = this.di;
         
-    const result = PropertiesService.findOneByID(req.params.id)
+    PropertiesService.findOneByID(req.params.id)
     .then(data => {
-        const props = {
-            data: data,
-            message: "properties are found successfully",
-            error: false
-        }
-        res.send(props);
+        // const props = {
+        //     data: data,
+        //     message: "properties are found successfully",
+        //     error: false
+        // }
+        // res.send(props);
+        res.answer(data, "properties are found successfully", statusCode.OK)
     })
     .catch(err => {
-        const props = {
-            data: null,
-            message: err,
-            error: true
-        }
-        res.status(500).send(props);
+        // const props = {
+        //     data: null,
+        //     message: err,
+        //     error: true
+        // }
+        // res.status(500).send(props);
+        res.answer(null, err, "properties can't be found", statusCode[500])
     });
-    return result
+
 }
 
 

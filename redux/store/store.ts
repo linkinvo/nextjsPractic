@@ -4,7 +4,7 @@ import { createWrapper, HYDRATE } from 'next-redux-wrapper'
 import { fromJS, Map } from 'immutable';
 import {rootWatcher} from '../saga/index'
 import { serialize, deserialize } from 'json-immutable';
-import { LOGOUT, SET_ALL_DATA_SCHEMA, SET_USER_INFO } from 'redux/store/actions';
+import { GET_SSR_DATA_INFO, LOGOUT, SET_ALL_DATA_SCHEMA, SET_USER_INFO } from 'redux/store/actions';
 import { IIdentity } from 'src/common';
 
 const bindMiddleware = (middleware) => {
@@ -74,9 +74,24 @@ const identity = (state = initialState, action) => {
     }
 }
 
+const ssrInitialState: any= null;
+
+const ssrDataReducer = (state = ssrInitialState, action: any) => {
+    console.log("ACTION-ssrDataReducer", action)
+    switch (action.type) {
+        case GET_SSR_DATA_INFO: {
+            return { ...action.payload }
+        }
+        default:
+            console.log("STATE - ssrDataReducer", state)
+            return state;
+    }
+}
+
 
 const appReducer = combineReducers({
     identity,
+    ssrDataReducer,
     entities,
 })
 

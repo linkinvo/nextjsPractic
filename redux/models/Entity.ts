@@ -54,7 +54,6 @@ export default class Entity {
         Authorization: 'bearer ' + token, // get token from cookies
       },
     };
-    console.log("PARAMS", params)
 
     if (method !== HTTP_METHOD.GET) {
       params['headers']['content-type'] = 'application/json';

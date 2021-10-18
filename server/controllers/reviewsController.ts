@@ -22,6 +22,8 @@ export default class ReviewsController extends BaseContext {
         error: false
       }
       res.send(props);
+
+      res.answer(reviews, "users are found successfully");
     })
     .catch(err => {
       const props = {
@@ -30,6 +32,9 @@ export default class ReviewsController extends BaseContext {
         error: true
       }
       res.status(500).send(props);
+
+      res.answer(null, "user can't be found", 500);
+
     });
     return result
   }

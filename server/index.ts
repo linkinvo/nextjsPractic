@@ -13,11 +13,12 @@ import cookieParser from 'cookie-parser';
 import cookieSession from 'cookie-session';
 import config from "../config";
 import compression from 'compression';
+import httpStatus from '../http-status';
 
 const passport = container.resolve<PassportStatic>('passport')
 const port = parseInt(process.env.PORT || "3000", 10);
 const dev = process.env.NODE_ENV !== "production";
-const app = next({ dev });
+ export const app = next({ dev });
 const handle = app.getRequestHandler();
 
 app.prepare().then(() => {
@@ -34,6 +35,7 @@ app.prepare().then(() => {
   server.use(compression());
   server.use(passport.initialize());  
   server.use(fileUpload({}));
+  server.use(answers)
   server.use(acl);
 
 
@@ -58,7 +60,24 @@ app.prepare().then(() => {
   
 });
 
-
+const answers = (req: Request, res: Response, next: NextFunction) => {
+  res.answer = (data: any, message: any = null, status: number = httpStatus.OK) => {
+    // console.log("DATA_DATA",data)
+    return res.status(status).json({
+      data,
+      message,
+      error : status != 200? true : false,
+    });
+  }
+  res.print = (
+    pathName: string,
+    ssrData: any,
+    // param: any ={}
+  ) => {
+    app.render(req, res, pathName,ssrData)
+  }
+  next()
+}
 
 
 const acl = (req: Request, res: Response, next: NextFunction) => {

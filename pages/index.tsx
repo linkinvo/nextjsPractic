@@ -6,6 +6,7 @@ import React from 'react'
 import Entity from 'redux/models/Entity';
 import propertyEntity from 'redux/models/PropertyEntity'
 import saga from 'redux/decorators/saga'
+import { getSSRDataInfo } from 'redux/store/actions';
 
 interface MyProps {
   properties,
@@ -21,10 +22,12 @@ class Home extends React.Component<MyProps> {
 
   //@ts-ignore
   private static getInitialProps = wrapper.getInitialAppProps(store => () => {
+    console.log("storestorestorestore", store)
     // const action = Entity.getActions()['PropertyEntity'].sagaGetAllProperties.decoratorFunction
     const action = propertyEntity.getListAction('sagaGetAllProperties');
 
     store.dispatch(action());
+    // store.dispatch(getSSRDataInfo({data}))
   });
 
   render() {
