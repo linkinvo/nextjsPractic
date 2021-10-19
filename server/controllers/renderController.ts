@@ -9,15 +9,15 @@ export default class RenderController extends BaseContext {
     @GET()
     @route('/')
     homePage(req: Request, res: Response) {
-        // const { PropertiesService } = this.di;
-        // PropertiesService.findAll()
-            // .then((data) => {
+        const { PropertiesService } = this.di;
+        PropertiesService.findAll()
+            .then((data) => {
                 // console.log("DATA-CONTROLL('/')", data)
-                res.print('/index')
-            // })
-            // .catch((err) => {
-                // res.answer(null, err, httpStatus.BAD_REQUEST)
-            // })
+                res.print('/index', data)
+            })
+            .catch((err) => {
+                res.answer(null, err, httpStatus.BAD_REQUEST)
+            })
             
         // return res.print('/index')
 
@@ -29,13 +29,13 @@ export default class RenderController extends BaseContext {
     propertyId(req: Request, res: Response) {
         console.log('object')
         const { PropertiesService } = this.di;
-        PropertiesService.findOneByID(null)
+        PropertiesService.findOneByID(req.params.id)
         .then((data)=> {
             console.log("DATA-CONTROLL(/properties/[id])", data)
             res.print('/properties/[id]', { id: req.params.id })
         })
         .catch((err) => {
-            res.print('/ERR404',err, httpStatus.BAD_REQUEST)
+            res.answer(null, err, httpStatus.BAD_REQUEST)
         })
 
         // return app.render(req, res, '/properties/[id]', { id: req.params.id })

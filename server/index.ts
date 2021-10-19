@@ -68,17 +68,13 @@ const answers = (req: Request, res: Response, next: NextFunction) => {
       error : status != 200? true : false,
     });
   }
-  res.print = (
-    pathName: string,
-    ssrData: any,
-    // param: any ={}
-  ) => {
+  res.print = (pathName: string, ssrData: any) => {
+    req.ssrData = ssrData
+    // console.log("ssrData  ssrData", ssrData)
     app.render(req, res, pathName,ssrData)
-    
   }
   next()
 }
-
 
 const acl = (req: Request, res: Response, next: NextFunction) => {
   let useAcl = true

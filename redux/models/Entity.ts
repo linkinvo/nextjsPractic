@@ -77,11 +77,16 @@ export default class Entity {
   }
 
   public * actionRequest(endpoint?: string, method?: HTTP_METHOD, data?: any, token?: string ) {
-
-    const answerServer = typeof window === 'undefined'
-    if(!answerServer) {
-      const result = yield call(this.xFetch, endpoint, method, data, token )
+// console.log("DATA-ACTION_REQ",payload)
+    const serverAnswer = typeof window === 'undefined'
+    if (!serverAnswer) {
+    const {result} = yield call(this.xFetch, endpoint, method, data, token )
+    
+    // console.log("DDDDDDDDDAAAAAAATTTTTTTAAAAA",{result})
     }
+
+    const result = yield call(this.xFetch, endpoint, method, data, token )
+
 
     const schema = (Array.isArray(result.response.data)? [this.getSchema()] : this.getSchema())
     if (result.success === true && result.response.error === false && this.schema) {

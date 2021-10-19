@@ -5,17 +5,21 @@ import { AppProps } from 'next/app';
 import wrapper  from '../redux/store/store';
 import { useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
-import { setUserInfo } from 'redux/store/actions';
+import { getSSRDataInfo, setUserInfo } from 'redux/store/actions';
 
  function App({ Component, pageProps }) {
   return <Component {...pageProps} />;
 }
 
 App.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
+//  console.log("CTX-@-#-#AAAAAAAAAAAA",  ctx.req)
+
+if(ctx.req && ctx.req.hasOwnProperty('ssrData')){
+store.dispatch(getSSRDataInfo(ctx.req['ssrData']))
+}
 
   if(ctx.req && ctx.req.hasOwnProperty('identity')){
     store.dispatch(setUserInfo(ctx.req['identity']))
-    // console.log("CTX-@-#-#AAAAAAAAAAAA",  ctx.req)
   }
 
 
