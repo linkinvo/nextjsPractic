@@ -5,10 +5,7 @@ import { AppProps } from 'next/app';
 import wrapper  from '../redux/store/store';
 import { useDispatch } from 'react-redux';
 import { END } from 'redux-saga';
-import { getSSRDataInfo, setUserInfo } from 'redux/store/actions';
-import { getCookieParser } from 'next/dist/server/api-utils';
-
-
+import { setUserInfo } from 'redux/store/actions';
 
  function App({ Component, pageProps }) {
   return <Component {...pageProps} />;

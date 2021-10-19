@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { route, GET, POST } from "awilix-express";
 import BaseContext from '../baseContext';
 import { IIdentity } from 'src/common';
+import httpStatus from "../../http-status";
 
 @route("/api/users")
 export default class UserController extends BaseContext {
@@ -10,18 +11,14 @@ export default class UserController extends BaseContext {
   @route('/login')
   public login(req: Request, res: Response, next: NextFunction) {
     const { passport } = this.di;
-    return passport.authenticate('local-login', (errors, identity) => {
+    return passport.authenticate('local-login', (errors, identity: IIdentity) => {
       console.log('login controller passport ', identity);
       if (identity) {
         res.cookie('token', identity.token, { maxAge: 1000606024 }, { message: 'You have successfully logged in!' })
-        return res.json({ identity, error: false });
+        return res.answer({ identity, error: false });
       } else {
         console.log('Validations denied : ', errors)
-        res.json({
-          identity: null,
-          message: 'Could not process validations',
-          error: true,
-        })
+        res.answer(null, errors, "properties can't be found", httpStatus[500]);
       }
     })(req, res, next);
   }
@@ -30,21 +27,13 @@ export default class UserController extends BaseContext {
   @POST()
   public registration(req: Request, res: Response, next: NextFunction) {
     const { passport } = this.di;
-    return passport.authenticate('local-signup', (errors, identity) => {
-  console.log("Registration controller passport", identity)
- if (identity) {
-        res.json({
-          identity,
-          message: 'Registration completed successfully!!! You can now log in.',
-          error: false
-        })
+    return passport.authenticate('local-signup', (errors, identity: IIdentity) => {
+      console.log("Registration controller passport", identity)
+      if (identity) {
+        res.answer(identity, 'Registration completed successfully!!! You can now log in.', httpStatus[500])
       } else {
         console.log('Register catch : ', errors)
-        res.status(301).json({
-          identity: null,
-          message: 'Could not process register',
-          error: errors
-        })
+        res.answer(null, errors, 'Could not process register', httpStatus[301]);
       }
     })(req, res, next);
   }
@@ -53,107 +42,37 @@ export default class UserController extends BaseContext {
   @POST()
   save(req: Request, res: Response) {
     const { UserService } = this.di;
-
-    const result = UserService.save(req.body, req.params.id)
-      .then(users => {
-        const props = {
-          data: users,
-          message: "users are found successfully",
-          error: false
-        }
-        res.send(props);
-      })
-      .catch(err => {
-        const props = {
-          data: null,
-          message: err,
-          error: true
-        }
-        res.status(500).send(props);
-      });
-
-    return result
+    UserService.save(req.body, req.params.id)
+      .then(users => { res.answer(users, "users are found successfully", httpStatus.OK) })
+      .catch(err => { res.answer(null, err, httpStatus[500]) });
   }
 
-
- 
-
   @route('/by_token') // Find a single UserModel with token
-    @GET()
-    getUserByToken(req: Request, res: Response) {
-      console.log(1)
-        const { UserService ,JwtStrategy } = this.di;
-        
-        const token = JwtStrategy.getJwtFromRequest(req);
-        return UserService.getUserByToken(token)
+  @GET()
+  getUserByToken(req: Request, res: Response) {
+    const { UserService, JwtStrategy } = this.di;
+    const token = JwtStrategy.getJwtFromRequest(req);
+    UserService.getUserByToken(token)
+      .then(data => { res.answer(data, "request successfully") })
+      .catch(err => { res.answer(null, err, httpStatus[500]) });
+  };
 
-            .then(data => {
-                const answer = {
-                    data: data,
-                    message: "request successfull",
-                    error: false
-                }
-                res.send(answer);
-            })
-            .catch(err => {
-                const answer = {
-                    data: null,
-                    message: err,
-                    error: true
-                }
-                res.status(500).send(answer);
-            });
-    };
-
-    @route('/:id')
-    @GET()
-    getById(req: Request, res: Response) {
-      const { UserService } = this.di;
-      const result = UserService.findOneByID(req.params.id)
-        .then(users => {
-          const props = {
-            data: users,
-            message: "users are found successfully",
-            error: false
-          }
-          res.send(props);
-        })
-        .catch(err => {
-          const props = {
-            data: null,
-            message: err,
-            error: true
-          }
-          res.status(500).send(props);
-        });
-      console.log("result", result)
-  
-      return result
-    }
-
+  @route('/:id')
+  @GET()
+  getById(req: Request, res: Response) {
+    const { UserService } = this.di;
+    UserService.findOneByID(req.params.id)
+      .then(users => { res.answer(users, "users are found successfully", httpStatus.OK) })
+      .catch(err => { res.answer(null, err, httpStatus[500]) });
+  }
 
   @route('/')
   @GET()
   getAll(req: Request, res: Response) {
     const { UserService } = this.di
-    const result = UserService.findAll()
-      .then(users => {
-        const props = {
-          data: users,
-          message: "users are found successfully",
-          error: false
-        }
-        res.send(props);
-      })
-      .catch(err => {
-        const props = {
-          data: null,
-          message: err,
-          error: true
-        }
-        res.status(500).send(props);
-      });
-    return result
+    UserService.findAll()
+      .then(users => { res.answer(users, "users are found successfully", httpStatus.OK) })
+      .catch(err => { res.answer(null, err, httpStatus[500]) });
   }
 
   // @route('/delete/:id')

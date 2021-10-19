@@ -74,24 +74,21 @@ const identity = (state = initialState, action) => {
     }
 }
 
-const ssrInitialState: any= null;
+const ssrDataInitialState: any = {};
 
-const ssrDataReducer = (state = ssrInitialState, action: any) => {
-    console.log("ACTION-ssrDataReducer", action)
+const ssrDataReducer = (state = ssrDataInitialState, action) => {
     switch (action.type) {
         case GET_SSR_DATA_INFO: {
             return { ...action.payload }
         }
         default:
-            console.log("STATE - ssrDataReducer", state)
             return state;
     }
 }
 
-
 const appReducer = combineReducers({
-    identity,
     ssrDataReducer,
+    identity,
     entities,
 })
 
@@ -120,9 +117,6 @@ function rootReducer(state, action) {
     return finalState;
 }
 
-
-
-
 export const makeStore = (ctx) => {
     const sagaMiddleware = createSagaMiddleware()
 
@@ -134,7 +128,6 @@ export const makeStore = (ctx) => {
 
     return store
 }
-
 
 // export const wrapper = createWrapper(makeStore)
  const wrapper = createWrapper(makeStore,  { 

@@ -1,5 +1,4 @@
 import { GET, route } from "awilix-express";
-import { app } from "../index";
 import BaseContext from "../baseContext";
 import { Request, Response, NextFunction } from 'express';
 import httpStatus from "../../http-status";
@@ -10,16 +9,15 @@ export default class RenderController extends BaseContext {
     @GET()
     @route('/')
     homePage(req: Request, res: Response) {
-        const { PropertiesService } = this.di;
-        PropertiesService.findAll()
-            .then((data) => {
-                // res.answer(data, 'Successful', httpStatus.OK)
-                // console.log("DATA-RENDER", data)
+        // const { PropertiesService } = this.di;
+        // PropertiesService.findAll()
+            // .then((data) => {
+                // console.log("DATA-CONTROLL('/')", data)
                 res.print('/index')
-            })
-            .catch((err) => {
-                res.answer(null, err, httpStatus.BAD_REQUEST)
-            })
+            // })
+            // .catch((err) => {
+                // res.answer(null, err, httpStatus.BAD_REQUEST)
+            // })
             
         // return res.print('/index')
 
@@ -31,13 +29,13 @@ export default class RenderController extends BaseContext {
     propertyId(req: Request, res: Response) {
         console.log('object')
         const { PropertiesService } = this.di;
-        PropertiesService.findOneByID(req.params.id)
+        PropertiesService.findOneByID(null)
         .then((data)=> {
-            // res.answer(data, 'Successful /properties/[id].tsx ', httpStatus.OK)
+            console.log("DATA-CONTROLL(/properties/[id])", data)
             res.print('/properties/[id]', { id: req.params.id })
         })
         .catch((err) => {
-            res.answer(null, err, httpStatus.BAD_REQUEST)
+            res.print('/ERR404',err, httpStatus.BAD_REQUEST)
         })
 
         // return app.render(req, res, '/properties/[id]', { id: req.params.id })

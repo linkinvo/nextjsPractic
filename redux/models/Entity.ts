@@ -77,9 +77,11 @@ export default class Entity {
   }
 
   public * actionRequest(endpoint?: string, method?: HTTP_METHOD, data?: any, token?: string ) {
-    // const token = yield select((state: any) => state?.identity?.userToken)
-    
-    const result = yield call(this.xFetch, endpoint, method, data, token )
+
+    const answerServer = typeof window === 'undefined'
+    if(!answerServer) {
+      const result = yield call(this.xFetch, endpoint, method, data, token )
+    }
 
     const schema = (Array.isArray(result.response.data)? [this.getSchema()] : this.getSchema())
     if (result.success === true && result.response.error === false && this.schema) {

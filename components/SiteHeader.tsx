@@ -1,11 +1,11 @@
 import { useState } from "react";
 import Link from 'next/link'
 
-
 export default function Header( {props} ) {
   const NOT_AUTHORIZED = props.id === '';
   let firstName = props.firstName;
   const lastName = props.lastName;
+  const role = props.role
   
   const [isOpenSandwich, setIsOpenSandwich] = useState(false);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
@@ -75,10 +75,10 @@ export default function Header( {props} ) {
                   {/* <Link href={"/logout"} >
                     <a className="block px-3 py-1 mt-1 hover:bg-gray-700 rounded font-medium text-white sm:mt-0 sm:text-sm sm:px-2 sm:ml-2 xl:text-gray-900 xl:hover:bg-gray-200 ">Logout</a>
                   </Link> */}
-                  <span className="block px-3 py-1 mt-1 hover:bg-gray-700 rounded font-medium text-white sm:mt-0 sm:text-sm sm:px-2 sm:ml-2 xl:text-gray-900 xl:hover:bg-gray-200 ">{firstName} {lastName}</span>
+                  <span className="block px-3 py-1 mt-1 hover:bg-gray-700 rounded font-medium text-white sm:mt-0 sm:text-sm sm:px-2 sm:ml-2 xl:text-gray-900 xl:hover:bg-gray-200 ">{firstName} {lastName}: __"{role}"__</span>
                   <div onClick={() => { setIsOpenProfile(!isOpenProfile) }} className="flex items-center">
               <img className="h-10 w-10 object-cover rounded-full border-2 border-gray-600 cursor-pointer sm:w-8 sm:h-8 xl:border-gray-200 " src='https://img.freepik.com/free-icon/important-person_318-10744.jpg?size=338&ext=jpg' alt="person_icon" />
-              <span className="ml-4 font-medium text-gray-200 sm:hidden">{firstName} {lastName}</span>
+              <span className="ml-4 font-medium text-gray-200 sm:hidden">{firstName} {lastName}  </span>
             </div>
 
                 </>

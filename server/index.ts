@@ -62,7 +62,6 @@ app.prepare().then(() => {
 
 const answers = (req: Request, res: Response, next: NextFunction) => {
   res.answer = (data: any, message: any = null, status: number = httpStatus.OK) => {
-    // console.log("DATA_DATA",data)
     return res.status(status).json({
       data,
       message,
@@ -75,6 +74,7 @@ const answers = (req: Request, res: Response, next: NextFunction) => {
     // param: any ={}
   ) => {
     app.render(req, res, pathName,ssrData)
+    
   }
   next()
 }
