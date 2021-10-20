@@ -12,10 +12,11 @@ import { getSSRDataInfo, setUserInfo } from 'redux/store/actions';
 }
 
 App.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
-//  console.log("CTX-@-#-#AAAAAAAAAAAA",  ctx.req)
 
 if(ctx.req && ctx.req.hasOwnProperty('ssrData')){
-store.dispatch(getSSRDataInfo(ctx.req['ssrData']))
+  const ssrData = JSON.parse(JSON.stringify(ctx.req['ssrData']));
+store.dispatch(getSSRDataInfo(ssrData))
+// console.log("_APP.TSX", ssrData)
 }
 
   if(ctx.req && ctx.req.hasOwnProperty('identity')){

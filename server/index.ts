@@ -68,10 +68,10 @@ const answers = (req: Request, res: Response, next: NextFunction) => {
       error : status != 200? true : false,
     });
   }
-  res.print = (pathName: string, ssrData: any) => {
+  res.print = (pathName: string,param: any={}, ssrData: any={}) => {
     req.ssrData = ssrData
     // console.log("ssrData  ssrData", ssrData)
-    app.render(req, res, pathName,ssrData)
+    app.render(req, res, pathName,param)
   }
   next()
 }
@@ -132,5 +132,5 @@ export const IGNORS = [
   '/api/properties',
   '/api/users/',
   '/api/reviews/',
-  // '/api/properties/by_token'
+  '/api/properties/by_token'
 ];

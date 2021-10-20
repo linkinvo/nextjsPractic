@@ -75,8 +75,7 @@ const identity = (state = initialState, action) => {
 }
 
 const ssrDataInitialState: any = {};
-
-const ssrDataReducer = (state = ssrDataInitialState, action) => {
+const ssrDataReducer = (state = ssrDataInitialState, action: any) => {
     // console.log("ssrDataReducer", action)
     switch (action.type) {
         case GET_SSR_DATA_INFO: {

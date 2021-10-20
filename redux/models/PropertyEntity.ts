@@ -1,6 +1,6 @@
 import { call, take } from "redux-saga/effects"
 import action from "redux/decorators/action"
-import { ENTITIES, IProperty } from "src/common"
+import { ENTITIES } from "src/common"
 import Entity from "./Entity"
 import reviewEntity from "./ReviewsSaga"
 import userEntity from "./UsersSaga" 
@@ -11,6 +11,7 @@ import userEntity from "./UsersSaga"
             reviews: [reviewEntity.getSchema()],
             user: userEntity.getSchema(),
         });
+
     }
     
     @action()
