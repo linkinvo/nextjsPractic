@@ -5,10 +5,11 @@ declare global {
     namespace Express {
         interface Response {
             answer: (data: any, message?: any, status?: number) => void;
-            print: (pathName: string, param: any,ssrData: any) => void;
+            print: (pathName: string,ssrData: any) => void;
         }
         interface Request {
-            identity: IIdentity
+            identity: IIdentity,
+            ssrData: any
         }
 
     }

@@ -1,7 +1,7 @@
 import { call, put, select, take } from 'redux-saga/effects';
 import { normalize, schema } from "normalizr";
 import { HTTP_METHOD } from "src/common";
-import { action, getSSRDataInfo, GET_SSR_DATA_INFO, setAllDataAC } from 'redux/store/actions';
+import { action, getSSRDataInfo, setAllDataAC } from 'redux/store/actions';
 import next from '../../next.config';
 import { camelizeKeys } from 'humps';
 import saga from 'redux/decorators/saga';
@@ -21,6 +21,7 @@ export default class Entity {
     this.actionRequest = this.actionRequest.bind(this);
     this.xRead = this.xRead.bind(this);
     this.xSave = this.xSave.bind(this);
+    this.normalize = this.normalize.bind(this)
     
     Entity.addAction = Entity.addAction.bind(this);
     Entity.getActions = Entity.getActions.bind(this);
@@ -78,55 +79,31 @@ export default class Entity {
   }
 
   public * actionRequest(endpoint?: string, method?: HTTP_METHOD, data?: any, token?: string ) {
-
-// console.log("DATA-ACTION_REQ",payload)
-
-// let getSsrDataQuery = yield select((state) => state.ssrDataReducer)
-
-// console.log("getSsrDataQuery`", getSsrDataQuery)
-
-    // const serverAnswer = typeof window === 'undefined'
-
-    // if (!serverAnswer) {
-    // const result = yield call(this.xFetch, endpoint, method, data, token )
-    // getSsrDataQuery = result
+    let ssrDataQuery = yield select((state) => state.ssrDataReducer)
     
-    // // console.log("DDDDDDDDDAAAAAAATTTTTTTAAAAA",{result})
-    // }
-
-    // const result = yield call(this.xFetch, endpoint, method, data, token )
-
-    //   if (getSsrDataQuery.success === true && getSsrDataQuery.response.error === false && this.schema) {
-
-    //   const schema = (Array.isArray(getSsrDataQuery.response.data)? [this.getSchema()] : this.getSchema())
-    //     const normalizedData = normalize(camelizeKeys(getSsrDataQuery.response.data), schema); 
-    //     return yield put(setAllDataAC(this.getEntityName(), normalizedData))
-      
-    // }
-    //   return getSsrDataQuery;
-
 
 
     let ssrData = yield select((state) => state.ssrDataReducer);
-
-    let dataNew = {};
-    if (ssrData) {
-      dataNew = Object.values(ssrData);
+    if (ssrData && Object.keys(ssrData).length !== 0) {
+      for (const [key, value] of Object.entries(ssrData)) {
+        yield call(this.normalize, value);
+      }
       yield put(getSSRDataInfo({}));
-      console.log(1)
     } else {
-      console.log(2)
       const result = yield call(this.xFetch, endpoint, method, data, token);
-      if (result.success === true && result.response.error === false) { dataNew = result.response.data; }
-      else { return result; }
+      if (result.success === true && result.response.error === false && this.schema) { 
+        yield call(this.normalize, result.response.data); 
+      }
+      else { return result }
     }
+  }
+
+  public *normalize(dataNew) {
     const schema = (Array.isArray(dataNew) ? [this.schema] : this.schema)
     if (this.schema) {
-      const normalizedData = normalize(camelizeKeys(dataNew), schema);
+      const normalizedData = normalize(camelizeKeys(JSON.parse(JSON.stringify(dataNew))), schema);
       return yield put(setAllDataAC(this.getEntityName(), normalizedData))
     }
-
-
   }
 
   public xSave(point: string, data: any = {}){

@@ -11,34 +11,26 @@ export default class RenderController extends BaseContext {
     @route('/')
     homePage(req: Request, res: Response) {
         const { PropertiesService } = this.di;
+        const ssrData = {}
         PropertiesService.findAll()
             .then((data) => {
-                // console.log("DATA-CONTROLL('/')", data)
-                res.print('/index', {}, data)
+                // ssrData[ENTITIES.PROPERTIES] = data
+                // res.print('/index', ssrData})
+                res.print('/index', {[ENTITIES.PROPERTIES]: data})
             })
-            .catch((err) => {
-                res.answer(null, err, httpStatus.BAD_REQUEST)
-            })
-            
-        // return res.print('/index')
-
-        // return app.render(req, res, '/index')
+            .catch((err) => { res.print('/ERR404', err)})
     }
 
     @GET()
     @route('/properties/:id')
     propertyId(req: Request, res: Response) {
         const { PropertiesService } = this.di;
+        const ssrData = {}
         PropertiesService.findOneByID(req.params.id)
         .then((data)=> {
-            // console.log("DATA-CONTROLL(/properties/[id])", data)
-            res.print('/properties/[id]', { id: req.params.id }, data)
+            // ssrData[ENTITIES.PROPERTIES] = data
+            res.print('/properties/[id]',{[ENTITIES.PROPERTIES]: data})
         })
-        .catch((err) => {
-            res.answer(null, err, httpStatus.BAD_REQUEST)
-        })
-
-        // return app.render(req, res, '/properties/[id]', { id: req.params.id })
+        .catch((err) => { res.print('/ERR404', err)})
     }
-
 }

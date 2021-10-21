@@ -76,7 +76,6 @@ const identity = (state = initialState, action) => {
 
 const ssrDataInitialState: any = {};
 const ssrDataReducer = (state = ssrDataInitialState, action: any) => {
-    // console.log("ssrDataReducer", action)
     switch (action.type) {
         case GET_SSR_DATA_INFO: {
             return { ...action.payload }
@@ -124,7 +123,7 @@ export const makeStore = (ctx) => {
 
     store.sagaTask = sagaMiddleware.run(rootWatcher)
 
-    store.runSaga = () => sagaMiddleware.run(rootWatcher)
+    store.sagaMiddleware = () => sagaMiddleware.run(rootWatcher)
 
     return store
 }

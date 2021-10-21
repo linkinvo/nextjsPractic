@@ -24,7 +24,6 @@ class Property extends React.Component<MyPropsName> {
 
   // @ts-ignore
   public static getInitialProps = wrapper.getInitialAppProps(store => (ctx: any) => {
-    // const action = Entity.getActions()['PropertyEntity'].sagaGetPropertyById.decoratorFunction
     const action = PropertyEntity.getListAction('sagaGetPropertyById')
     store.dispatch(action({ id: ctx.query.id }))
     return {

@@ -27,6 +27,7 @@ class Identity extends Entity {
   public * register(data) {
     yield call(this.xFetch, '/users/register', HTTP_METHOD.POST, data);
     yield call(Router.push, '/')
+    
   }
 
   @action()

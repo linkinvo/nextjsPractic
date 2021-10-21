@@ -149,8 +149,6 @@ const mapDispatchToProps = (dispatch) => {
     const action = Identity.getListAction('sagaLogin')
 
     return {
-        // email: '',
-        // password: ''
         sagaLogin: (data) => dispatch(action({
             email: data.email,
             password: data.password
@@ -158,8 +156,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 //Identity.getOneAction('sagaLogin')
-export default connect(null,mapDispatchToProps, 
-//     {
-//     ...Identity.getOneAction(['sagaLogin'])
-// }
-)(Login);
+export default connect(null,mapDispatchToProps)(Login);

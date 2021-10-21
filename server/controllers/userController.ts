@@ -23,8 +23,8 @@ export default class UserController extends BaseContext {
     })(req, res, next);
   }
 
-  @route("/registration")
   @POST()
+  @route("/registration")
   public registration(req: Request, res: Response, next: NextFunction) {
     const { passport } = this.di;
     return passport.authenticate('local-signup', (errors, identity: IIdentity) => {

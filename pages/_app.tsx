@@ -12,21 +12,12 @@ import { getSSRDataInfo, setUserInfo } from 'redux/store/actions';
 }
 
 App.getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
-
-if(ctx.req && ctx.req.hasOwnProperty('ssrData')){
-  const ssrData = JSON.parse(JSON.stringify(ctx.req['ssrData']));
-store.dispatch(getSSRDataInfo(ssrData))
-// console.log("_APP.TSX", ssrData)
-}
-
-  if(ctx.req && ctx.req.hasOwnProperty('identity')){
-    store.dispatch(setUserInfo(ctx.req['identity']))
-  }
+if(ctx.req && ctx.req.hasOwnProperty('ssrData')){store.dispatch(getSSRDataInfo(ctx.req['ssrData']))}
+if(ctx.req && ctx.req.hasOwnProperty('identity')){store.dispatch(setUserInfo(ctx.req['identity']))}
 
 
-
-  (store).runSaga();
   //   1. Wait for all page actions to dispatch
+  (store).sagaMiddleware();
   const pageProps = {
       ...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {}),
       namespacesRequired: ['common']

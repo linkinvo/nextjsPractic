@@ -11,10 +11,7 @@ class UserEntity extends Entity {
 
     @action()
     public * sagaGetUsers() {
-        // while (true) {
-            // yield take('sagaGetUsers');
             yield call(this.xRead, '/user/' , {});
-        // }
     }
 }
 

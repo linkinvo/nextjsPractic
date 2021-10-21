@@ -8,6 +8,7 @@ import Entity from "redux/models/Entity";
 
 export const rootWatcher = function* root() {
   const sagaAll = Entity.getActions();
+  console.log("sagaAll", sagaAll)
 
   yield all(Object.values(sagaAll).map(
     entity => all(Object.values(entity).map((saga: any) => saga.saga ? call(saga.saga) : ''))
