@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Link from 'next/link'
+import PropertiCreate from "./propertiesComponent/PropertiCreate";
 
 export default function Header( {props} ) {
   const NOT_AUTHORIZED = props.id === '';
@@ -80,7 +81,6 @@ export default function Header( {props} ) {
               <img className="h-10 w-10 object-cover rounded-full border-2 border-gray-600 cursor-pointer sm:w-8 sm:h-8 xl:border-gray-200 " src='https://img.freepik.com/free-icon/important-person_318-10744.jpg?size=338&ext=jpg' alt="person_icon" />
               <span className="ml-4 font-medium text-gray-200 sm:hidden">{firstName} {lastName}  </span>
             </div>
-
                 </>
 
             }
@@ -92,8 +92,13 @@ export default function Header( {props} ) {
               <span className="ml-4 font-medium text-gray-200 sm:hidden">{firstName} {lastName}</span>
             </div> */}
             <div className={`${!isOpenProfile ? 'sm:hidden' : 'block'} mt-5 sm:bg-white sm:rounded-lg sm:fixed sm:mt-4 sm:right-0 sm:w-48 sm:py-2 sm:shadow-xl sm:mx-3 sm:z-50`}>
-              <a href="/" className="block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">Add Properti product</a>
-              {/* <Link href={"/"} >
+              {/* <Link href={"/addProperty"} >
+              <a className="mt-3 block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">Add Property</a>
+              </Link> */}
+              <button className="block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">
+                <PropertiCreate/>
+                </button>
+                              {/* <Link href={"/"} >
                 <a className="mt-3 block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">Login</a>
               </Link> */}
               {/* <Link href={"/"} > */}

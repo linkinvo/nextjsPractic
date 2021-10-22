@@ -6,6 +6,7 @@ import {rootWatcher} from '../saga/index'
 import { serialize, deserialize } from 'json-immutable';
 import { GET_SSR_DATA_INFO, LOGOUT, SET_ALL_DATA_SCHEMA, SET_USER_INFO } from 'redux/store/actions';
 import { IIdentity } from 'src/common';
+import { reducer as reduxFormReducer } from 'redux-form'
 
 const bindMiddleware = (middleware) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -89,6 +90,7 @@ const appReducer = combineReducers({
     ssrDataReducer,
     identity,
     entities,
+    form: reduxFormReducer,
 })
 
 let isHydrated = false;

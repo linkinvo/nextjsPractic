@@ -7,6 +7,7 @@ import Entity from 'redux/models/Entity';
 import propertyEntity from 'redux/models/PropertyEntity'
 import saga from 'redux/decorators/saga'
 import { getSSRDataInfo } from 'redux/store/actions';
+import PropertiCreate from 'components/propertiesComponent/PropertiCreate';
 
 interface MyProps {
   properties,
@@ -40,8 +41,11 @@ class Home extends React.Component<MyProps> {
             </div>
             :
             <div className="min-h-screen  antialiased xl:flex xl:flex-col xl:h-screen">
+
               <div className='xl:flex-1 xl:flex '>
                 <main className='mt-6 xl:flex-1 xl:overflow-y-scroll'>
+                  <button type='button'>
+                  </button>
                   <div className='px-4 xl:px-8'>
                     <h3 className='text-gray-900 text-xl'>Los Angeles</h3>
                     <p className='text-gray-600'>Live like the stars in these luxurious Southern California estates.</p>

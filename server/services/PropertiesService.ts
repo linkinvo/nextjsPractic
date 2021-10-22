@@ -17,16 +17,27 @@ export default class PropertiesService extends BaseContext {
         return properties
     }
 
-    public async save(body, id) {
-        const { PropertiModel } = this.di;
-        let properties = await PropertiModel.findByPk(id);
-        if (properties) {
-            properties.set(body)
-        }else {
-            properties = PropertiModel.build(body)
-        }
-        return properties.save();
+  public async save(body, id) {
+    const { PropertiModel } = this.di;
+    let properties = await PropertiModel.findByPk(id);
+    if (properties) {
+      properties.set(body)
+    } else {
+      properties = PropertiModel.build(body)
     }
+    return properties.save();
+  }
+
+  public async create(body) {
+    const { PropertiModel } = this.di;
+    let properties = await PropertiModel.findByPk();
+    if (properties) {
+      properties.set(body)
+    } else {
+      properties = PropertiModel.build(body)
+    }
+    return properties.save();
+  }
 
     public findOneByID(id) {
         const { PropertiModel, ReviewsModel, UserModel } = this.di;

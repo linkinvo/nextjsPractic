@@ -6,9 +6,6 @@ import httpStatus from "../../http-status";
 
 @route("/api/properties")
 export default class PropertiesController extends BaseContext {
-  @route("/create")
-  @POST()
-  async create(req, res) { }
 
   @route('/')
   @GET()
@@ -28,12 +25,21 @@ export default class PropertiesController extends BaseContext {
       .catch(err => { res.answer(null, err, "properties can't be found", httpStatus[500]) });
   }
 
+  // @route('/save/')
+  // @POST()
+  // creteProperti(req: Request, res: Response) {
+  //   const { PropertiesService } = this.di;
+  //   PropertiesService.create(req.body)//UUID
+  //     .then(data => { res.answer(data, 'properties are found successfully', httpStatus.OK) })
+  //     .catch(err => { res.answer(null, err, httpStatus[500]) })
+  // }
+
   @route('/save/:id')
   @POST()
-  save(req: Request, res: Response) {
+  saveProperti(req: Request, res: Response) {
     const { PropertiesService } = this.di;
     PropertiesService.save(req.body, req.params.id)
-      .then(data => { res.answer(data, "properties are found successfully", httpStatus.OK) })
-      .catch(err => { res.answer(null, err, httpStatus[500]) });
+      .then(data => { res.answer(data, 'properties are found successfully', httpStatus.OK) })
+      .catch(err => { res.answer(null, err, httpStatus[500]) })
   }
 }
