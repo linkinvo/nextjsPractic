@@ -25,21 +25,17 @@ export default class PropertiesController extends BaseContext {
       .catch(err => { res.answer(null, err, "properties can't be found", httpStatus[500]) });
   }
 
-  // @route('/save/')
-  // @POST()
-  // creteProperti(req: Request, res: Response) {
-  //   const { PropertiesService } = this.di;
-  //   PropertiesService.create(req.body)//UUID
-  //     .then(data => { res.answer(data, 'properties are found successfully', httpStatus.OK) })
-  //     .catch(err => { res.answer(null, err, httpStatus[500]) })
-  // }
-
   @route('/save/:id')
   @POST()
   saveProperti(req: Request, res: Response) {
     const { PropertiesService } = this.di;
-    PropertiesService.save(req.body, req.params.id)
+    console.log('PropertiesService---CREATE', PropertiesService)
+    const result = PropertiesService.save(req.body, req.params.id)
       .then(data => { res.answer(data, 'properties are found successfully', httpStatus.OK) })
       .catch(err => { res.answer(null, err, httpStatus[500]) })
+      
+      console.log("TAIME", 	Math.floor(new Date().getTime()/1000.0))
+      console.log("RESULT_CONTORLL", result)
+      return result
   }
 }

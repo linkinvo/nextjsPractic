@@ -1,110 +1,31 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
-
-
-// const  SimpleForm = props => {
-//   const  {handleSubmit, pristine, reset, submitting } = props;
-//   return (
-//     <form onSubmit={handleSubmit}>
-//       <div>
-//         <label>First Name</label>
-//         <div>
-//           <Field
-//         name='firstName'
-//         component='input'
-//         type='text'
-//         placeholder='First Name'
-//         />
-//         </div>
-//       </div>
-
-//       <div>
-//         <label>Last Name</label>
-//         <div>
-//           <Field
-//             name='lastName'
-//             component='input'
-//             type='text'
-//             placeholder='Last Name'
-//           />
-//         </div>
-//       </div>
-
-//       <div>
-//         <label>Email</label>
-//         <div>
-
-//         <Field
-//           name='email'
-//           component='input'
-//           type='email'
-//           placeholder='Email'
-//           />
-//           </div>
-//       </div>
-
-//       <div>
-//         <label>Email</label>
-//         <div>
-
-//         <Field
-//           name='email'
-//           component='input'
-//           type='email'
-//           placeholder='Email'
-//           />
-//           </div>
-//       </div>
-
-//       <div>
-//         <label>Email</label>
-//         <div>
-
-//         <Field
-//           name='email'
-//           component='input'
-//           type='email'
-//           placeholder='Email'
-//           />
-//           </div>
-//       </div>
-
-//       <div>
-//         <label>Favorite Color</label>
-//         <div>
-//           <Field name="favoriteColor" component="select">
-//             <option />
-//             <option value="ff0000">Red</option>
-//             <option value="00ff00">Green</option>
-//             <option value="0000ff">Blue</option>
-//           </Field>
-//         </div>
-//       </div>
-
-//       <div>
-//         <button type="submit" disabled={pristine || submitting}>Submit</button>
-//         <button type="button" disabled={pristine || submitting} onClick={reset}>
-//           Clear Values
-//         </button>
-//       </div>
-//     </form>
-//   );
-// };
-
-
-// export default reduxForm({
-//   form: 'simple',
-// })(SimpleForm)
+import wrapper from 'redux/store/store';
 
 
 const PropertiCreate = (props) => {
   const  {handleSubmit, pristine, reset, submitting } = props;
-
-  console.log("handleSubmit",handleSubmit)
-  console.log("pristine", pristine)
-  console.log("submitting", submitting)
-  //@ts-ignore
   const [showModal, setShowModal] = React.useState(false);
+
+
+
+  // const [description, setDescription] = React.useState('')
+  // const [rating, setRating] = React.useState('')
+  // const [price, setPrice] = React.useState('')
+  // const [beds, setBeds] = React.useState('')
+  // const [baths, setBaths] = React.useState('')
+
+
+  // const formData = new FormData()
+  // formData.append('description', description)
+  // formData.append('rating', rating)
+  // formData.append('price', price)
+  // formData.append('beds', beds)
+  // formData.append('baths', baths)
+  // formData.append('userId', userId)
+  // formData.append('img', img)
+
+
   
     return (
         <>
@@ -398,6 +319,7 @@ const PropertiCreate = (props) => {
                     type="button"
                     disabled={pristine || submitting}
                     // onClick={reset}
+                    onChange={reset}
                     onClick={() => setShowModal(false)}
                   >
                     Close
@@ -439,6 +361,46 @@ const PropertiCreate = (props) => {
     );
 };
 
+
+//@ts-ignore
+PropertiCreate.getInitialProps = wrapper.getInitialAppProps(store => () => {
+
+})
+
+const mapStateToProps = (state, props) => {
+  return {
+
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+
+  }
+}
+
 export default reduxForm({
   form: 'simple',
 }) (PropertiCreate);
+
+
+
+
+
+
+
+
+// //@ts-ignore
+// Home.getInitialProps = wrapper.getInitialAppProps(store => () => {
+//   store.dispatch(getAllProperties());
+// });
+
+// const mapStateToProps = (state) => {
+//   const { entities } = state;
+//   return {
+//     properties: entities.get('properties'),
+//     identity: state.identity,
+//   }
+// }
+
+// export default connect(mapStateToProps)(Home)

@@ -38,15 +38,6 @@ export default class UserController extends BaseContext {
     })(req, res, next);
   }
 
-  @route('/save/:id')
-  @POST()
-  save(req: Request, res: Response) {
-    const { UserService } = this.di;
-    UserService.save(req.body, req.params.id)
-      .then(users => { res.answer(users, "users are found successfully", httpStatus.OK) })
-      .catch(err => { res.answer(null, err, httpStatus[500]) });
-  }
-
   @route('/by_token') // Find a single UserModel with token
   @GET()
   getUserByToken(req: Request, res: Response) {

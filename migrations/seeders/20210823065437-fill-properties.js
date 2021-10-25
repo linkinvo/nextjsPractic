@@ -20,8 +20,9 @@ module.exports = {
           description: faker.commerce.productDescription(),
         //  reviews_id: reviews.id,
           rating: 4,
-          createdAt : Date.now() / 1000,
-          updatedAt : Date.now() / 1000
+          createdAt : Math.floor(new Date().getTime()/1000.0),
+          updatedAt : Math.floor(new Date().getTime()/1000.0)
+          // updatedAt : Date.now() / 1000
         };
         items.push(item);
       })

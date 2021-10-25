@@ -112,10 +112,6 @@ const acl = (req: Request, res: Response, next: NextFunction) => {
 }
 
 
-
-
-
-
 export const IGNORS = [
   '/favicon.ico',
   '/_next',

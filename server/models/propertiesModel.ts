@@ -1,4 +1,4 @@
-import { Model, DataTypes, BuildOptions } from "sequelize";
+import { Model, DataTypes, BuildOptions, IntegerDataType } from "sequelize";
 import { IContextContainer } from "./../container";
 
 interface IProperties extends Model {
@@ -9,10 +9,12 @@ interface IProperties extends Model {
   price: number;
   beds: number;
   baths: number;
-  createdAt: BigInt;
-  updatedAt: BigInt;
   userId: number;
+  createdAt: number;
+  updatedAt: number;
 }
+
+// console.log("TIME", 	Math.floor(new Date().getTime()/1000.0))
 
 export type PropertiesType = typeof Model & {
   new (values?: object, options?: BuildOptions): IProperties;
@@ -29,9 +31,12 @@ export default (ctx: IContextContainer) => {
     price: { type: DataTypes.INTEGER, allowNull: false },
     beds: { type: DataTypes.INTEGER, allowNull: false },
     baths: { type: DataTypes.INTEGER, allowNull: false },
-    createdAt: { type: DataTypes.BIGINT, allowNull: false },
-    updatedAt: { type: DataTypes.BIGINT, allowNull: false },
     userId: { type: DataTypes.INTEGER },
+    createdAt: { type: DataTypes.DATE,allowNull: false },
+    updatedAt: { type: DataTypes.DATE,allowNull: false },
+  },
+  {
+    timestamps: false,
   });
 
   PropertiModel.initModel = () => {
