@@ -29,7 +29,7 @@ export default class PropertiesController extends BaseContext {
   @POST()
   saveProperti(req: Request, res: Response) {
     const { PropertiesService } = this.di;
-    console.log('PropertiesService---CREATE', PropertiesService)
+    
     const result = PropertiesService.save(req.body, req.params.id)
       .then(data => { res.answer(data, 'properties are found successfully', httpStatus.OK) })
       .catch(err => { res.answer(null, err, httpStatus[500]) })

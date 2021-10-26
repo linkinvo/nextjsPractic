@@ -23,7 +23,6 @@ class Home extends React.Component<MyProps> {
 
   //@ts-ignore
   private static getInitialProps = wrapper.getInitialAppProps(store => () => {
-    // const action = Entity.getActions()['PropertyEntity'].sagaGetAllProperties.decoratorFunction
     const action = propertyEntity.getListAction('sagaGetAllProperties');
     store.dispatch(action());
   });

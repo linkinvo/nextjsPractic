@@ -14,7 +14,8 @@ interface IProperties extends Model {
   updatedAt: number;
 }
 
-// console.log("TIME", 	Math.floor(new Date().getTime()/1000.0))
+
+//Math.floor(new Date().getTime()/1000.0)
 
 export type PropertiesType = typeof Model & {
   new (values?: object, options?: BuildOptions): IProperties;
@@ -24,7 +25,7 @@ export type PropertiesType = typeof Model & {
 export default (ctx: IContextContainer) => {
   
   const PropertiModel = <PropertiesType>ctx.db.define("properties", {
-    id: {allowNull: false,autoIncrement: true,primaryKey: true,type: DataTypes.INTEGER,},
+    id: {allowNull: false, autoIncrement: true, primaryKey: true, type: DataTypes.INTEGER,},
     img: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.STRING, allowNull: false },
     rating: { type: DataTypes.INTEGER, defaultValue: 0 },
@@ -32,8 +33,8 @@ export default (ctx: IContextContainer) => {
     beds: { type: DataTypes.INTEGER, allowNull: false },
     baths: { type: DataTypes.INTEGER, allowNull: false },
     userId: { type: DataTypes.INTEGER },
-    createdAt: { type: DataTypes.DATE,allowNull: false },
-    updatedAt: { type: DataTypes.DATE,allowNull: false },
+    createdAt: { type: DataTypes.INTEGER },
+    updatedAt: { type: DataTypes.INTEGER },
   },
   {
     timestamps: false,

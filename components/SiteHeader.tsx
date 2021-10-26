@@ -7,6 +7,7 @@ export default function Header( {props} ) {
   let firstName = props.firstName;
   const lastName = props.lastName;
   const role = props.role
+  const identity = props
   
   const [isOpenSandwich, setIsOpenSandwich] = useState(false);
   const [isOpenProfile, setIsOpenProfile] = useState(false);
@@ -96,7 +97,7 @@ export default function Header( {props} ) {
               <a className="mt-3 block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">Add Property</a>
               </Link> */}
               <button className="block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">
-                <PropertiCreate/>
+                <PropertiCreate identity={identity}/>
                 </button>
                               {/* <Link href={"/"} >
                 <a className="mt-3 block text-gray-400 hover:text-white sm:text-gray-800 sm:px-4 sm:mt-0 sm:py-2 sm:hover:bg-indigo-500">Login</a>

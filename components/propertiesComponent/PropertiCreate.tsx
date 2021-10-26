@@ -1,31 +1,17 @@
 import React from 'react';
 import { Field, reduxForm } from 'redux-form';
 import wrapper from 'redux/store/store';
+import {maxLengthCreator, requiredField} from '../../redux/validation/validators'
+import {Input} from '../../redux/validation/FormsControls'
+
 
 
 const PropertiCreate = (props) => {
+  console.log("CREATE-props.identity", props.identity)
   const  {handleSubmit, pristine, reset, submitting } = props;
   const [showModal, setShowModal] = React.useState(false);
 
-
-
-  // const [description, setDescription] = React.useState('')
-  // const [rating, setRating] = React.useState('')
-  // const [price, setPrice] = React.useState('')
-  // const [beds, setBeds] = React.useState('')
-  // const [baths, setBaths] = React.useState('')
-
-
-  // const formData = new FormData()
-  // formData.append('description', description)
-  // formData.append('rating', rating)
-  // formData.append('price', price)
-  // formData.append('beds', beds)
-  // formData.append('baths', baths)
-  // formData.append('userId', userId)
-  // formData.append('img', img)
-
-
+  const maxLength3 =  maxLengthCreator(3)
   
     return (
         <>
@@ -51,7 +37,7 @@ const PropertiCreate = (props) => {
   type="button"
   onClick={() => setShowModal(true)}
 >
-  Add Property
+  Property
   <svg
     className="inline-block w-3 ml-2"
     fill="currentColor"
@@ -144,7 +130,7 @@ const PropertiCreate = (props) => {
     <h2 className="px-4 pt-3 pb-2 text-gray-800 text-lg">Add a new property</h2>
     <div className="w-full md:w-full px-3 mb-2 mt-2">
       <Field 
-              component='input'
+              component={Input}
               className="bg-gray-100 
                           rounded 
                           border 
@@ -152,7 +138,7 @@ const PropertiCreate = (props) => {
                           leading-normal 
                           resize-none 
                           w-full 
-                          h-20 
+                          h-10 
                           py-2 
                           px-3 
                           font-medium 
@@ -164,7 +150,7 @@ const PropertiCreate = (props) => {
               name='description'
               placeholder='description'/>
       <Field 
-              component='input'
+              component={Input}
               className="bg-gray-100 
                           rounded
                           border 
@@ -172,7 +158,7 @@ const PropertiCreate = (props) => {
                           leading-normal 
                           resize-none 
                           w-full 
-                          h-20 
+                          h-10 
                           py-2 
                           px-3 
                           font-medium 
@@ -181,10 +167,11 @@ const PropertiCreate = (props) => {
                           focus:bg-white 
                           text-black" 
             name="beds" 
-            type="number" 
+            type="number"
+            validate={[requiredField]} 
             placeholder='beds'/>
       <Field 
-              component='input'    
+              component={Input}
               className="bg-gray-100 
                           rounded 
                           border 
@@ -192,7 +179,7 @@ const PropertiCreate = (props) => {
                           leading-normal 
                           resize-none 
                           w-full 
-                          h-20 
+                          h-10 
                           py-2 
                           px-3 
                           font-medium 
@@ -202,31 +189,9 @@ const PropertiCreate = (props) => {
                           text-black" 
             name="baths" 
             type="number" 
+            validate={[requiredField]}
             placeholder='baths'/>
-      <Field  
-            component="select"
-            className="bg-gray-100 
-                                rounded 
-                                border 
-                                border-gray-400 
-                                leading-normal 
-                                resize-none 
-                                w-full 
-                                h-20 
-                                py-2 
-                                px-3 
-                                font-medium 
-                                placeholder-gray-700 
-                                focus:outline-none 
-                                focus:bg-white 
-                                text-black" 
-                    name="userId" 
-                    placeholder='userId'>
-      <option>USER</option>
-      <option value="ff0000">Red</option>
-      <option value="00ff00">Green</option>
-      <option value="0000ff">Blue</option>
-      </Field>
+ 
       <Field 
               component='input'
               className="bg-gray-100 
@@ -236,7 +201,7 @@ const PropertiCreate = (props) => {
                           leading-normal 
                           resize-none 
                           w-full 
-                          h-20 
+                          h-10 
                           py-2 
                           px-3 
                           font-medium 
@@ -248,7 +213,7 @@ const PropertiCreate = (props) => {
               type="number" 
               placeholder='rating'/>
       <Field 
-              component='input'
+              component={Input}
               className="bg-gray-100 
                           rounded 
                           border 
@@ -256,7 +221,7 @@ const PropertiCreate = (props) => {
                           leading-normal 
                           resize-none 
                           w-full 
-                          h-20 
+                          h-10 
                           py-2 
                           px-3 
                           font-medium 
@@ -265,7 +230,8 @@ const PropertiCreate = (props) => {
                           focus:bg-white 
                           text-black" 
               name="price" 
-              type="number" 
+              type="number"
+              validate={[requiredField]}
               placeholder='price'/>
     </div>
     <div className="w-full md:w-full flex items-start px-3">
@@ -348,7 +314,7 @@ const PropertiCreate = (props) => {
                     disabled={pristine || submitting}
                     onClick={() => setShowModal(false)}
                   >
-                    Save Changes{console.log("SAVEEEE",submitting)}
+                    Save Changes
                   </button>
                 </div>
               </div>
@@ -361,27 +327,13 @@ const PropertiCreate = (props) => {
     );
 };
 
+const hoc = reduxForm({form: 'createProperty'})(PropertiCreate);
 
 //@ts-ignore
-PropertiCreate.getInitialProps = wrapper.getInitialAppProps(store => () => {
+hoc.getInitialProps = ctx => PropertiCreate.getInitialProps ? PropertiCreate.getInitialProps(ctx) : {};
+console.log("CTX", hoc)
 
-})
-
-const mapStateToProps = (state, props) => {
-  return {
-
-  }
-}
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-
-  }
-}
-
-export default reduxForm({
-  form: 'simple',
-}) (PropertiCreate);
+export default hoc;
 
 
 
@@ -390,17 +342,39 @@ export default reduxForm({
 
 
 
-// //@ts-ignore
-// Home.getInitialProps = wrapper.getInitialAppProps(store => () => {
-//   store.dispatch(getAllProperties());
-// });
 
-// const mapStateToProps = (state) => {
-//   const { entities } = state;
-//   return {
-//     properties: entities.get('properties'),
-//     identity: state.identity,
-//   }
-// }
 
-// export default connect(mapStateToProps)(Home)
+     {/* <Field  
+            component="select"
+            className="bg-gray-100 
+                                rounded 
+                                border 
+                                border-gray-400 
+                                leading-normal 
+                                resize-none 
+                                w-full 
+                                h-20 
+                                py-2 
+                                px-3 
+                                font-medium 
+                                placeholder-gray-700 
+                                focus:outline-none 
+                                focus:bg-white 
+                                text-black" 
+                    name="userId" 
+                    placeholder='userId'>
+      <option>USER</option>
+      <option value="ff0000">Red</option>
+      <option value="00ff00">Green</option>
+      <option value="0000ff">Blue</option>
+      </Field> */}
+
+
+
+      // export function withForm(options) {
+      //   return Child => {
+      //     const hoc = reduxForm(options)(Child);
+      //     hoc.getInitialProps = ctx => Child.getInitialProps ? Child.getInitialProps(ctx) : {};
+      //     return hoc;
+      //   };
+      // }
