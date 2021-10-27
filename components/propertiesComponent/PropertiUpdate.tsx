@@ -1,17 +1,32 @@
 import React from 'react';
-import { Field, reduxForm } from 'redux-form';
-import wrapper from 'redux/store/store';
+import { Field, reduxForm, reducer as reduxFormReducer } from 'redux-form';
+import { connect } from 'react-redux';
+import entities from 'redux/store/store'
 import {maxLengthCreator, requiredField} from '../../redux/validation/validators'
 import {Input} from '../../redux/validation/FormsControls'
 
 
 
-const PropertiCreate = (props) => {
-  // console.log("CREATE-props.identity", props.identity)
-  const  {handleSubmit, pristine, reset, submitting } = props;
+
+let PropertiUpdate = (props) => {
+  // console.log("property", props.initialValues.form)
   const [showModal, setShowModal] = React.useState(false);
 
-  const maxLength3 =  maxLengthCreator(3)
+
+  const  {handleSubmit, pristine, reset, submitting } = props;
+
+  const upPropertyButton = () => {
+    console.log("props.initialValues.form",props.initialValues.form)
+  }
+  let data = {
+    rating: 5,
+    description: "The Football Is Good For Training And Recreational Purposes",
+    beds: 5,
+    price: 871,
+    userId: 337,
+    img: 'img',
+    baths: 2,
+  };
   
     return (
         <>
@@ -37,7 +52,7 @@ const PropertiCreate = (props) => {
   type="button"
   onClick={() => setShowModal(true)}
 >
-  Property
+   Update Property
   <svg
     className="inline-block w-3 ml-2"
     fill="currentColor"
@@ -87,7 +102,7 @@ const PropertiCreate = (props) => {
                         bg-transparent 
                         border-0 
                         text-black 
-                        opacity-5 
+                        opacity-3 
                         float-right 
                         text-3xl 
                         leading-none 
@@ -98,7 +113,6 @@ const PropertiCreate = (props) => {
             >
               <span className="bg-transparent 
                             text-black 
-                            opacity-5 
                             h-6 
                             w-6 
                             text-2xl 
@@ -129,6 +143,22 @@ const PropertiCreate = (props) => {
   <form onSubmit={handleSubmit} className="flex flex-wrap -mx-3 mb-6">
     <h2 className="px-4 pt-3 pb-2 text-gray-800 text-lg">Add a new property</h2>
     <div className="w-full md:w-full px-3 mb-2 mt-2">
+    <div>
+        <button className="  bg-yellow-500 
+                               background-transparent  
+                               font-bold 
+                               uppercase 
+                               px-6 
+                               py-2 
+                               text-sm 
+                               outline-none 
+                               focus:outline-none 
+                               mr-1 
+                               mb-1 
+                               ease-linear 
+                               transition-all 
+                               duration-150" type="button" onClick={upPropertyButton}>Load Account</button>
+      </div>
       <Field 
               component={Input}
               className="bg-gray-100 
@@ -148,6 +178,7 @@ const PropertiCreate = (props) => {
                           text-black" 
               type="text" 
               name='description'
+              validate={[requiredField]}
               placeholder='description'/>
       <Field 
               component={Input}
@@ -233,6 +264,27 @@ const PropertiCreate = (props) => {
               type="number"
               validate={[requiredField]}
               placeholder='price'/>
+      <Field 
+              component={Input}
+              className="bg-gray-100 
+                          rounded 
+                          border 
+                          border-gray-400 
+                          leading-normal 
+                          resize-none 
+                          w-full 
+                          h-10 
+                          py-2 
+                          px-3 
+                          font-medium 
+                          placeholder-gray-700 
+                          focus:outline-none 
+                          focus:bg-white 
+                          text-black" 
+              name="img" 
+              type="text"
+              validate={[requiredField]}
+              placeholder='img'/>
     </div>
     <div className="w-full md:w-full flex items-start px-3">
       <div className="flex items-start w-1/2 text-gray-700 px-2 mr-auto">
@@ -284,11 +336,10 @@ const PropertiCreate = (props) => {
                                duration-150"
                     type="button"
                     disabled={pristine || submitting}
-                    // onClick={reset}
-                    onChange={reset}
-                    onClick={() => setShowModal(false)}
+                    onClick={reset}
+                    // onClick={() => setShowModal(false)}
                   >
-                    Close
+                    Reset
                   </button>
                   <button
                     className="bg-emerald-500 
@@ -328,54 +379,56 @@ const PropertiCreate = (props) => {
 };
 
 
+const mapStateToProps = (state, props) => {
+  console.log("PROPS-M", props)
+console.log("STASTE", state.entities)
+  return {
+    entities: state.entities,
+    initialValues: {
+      props,
+      entities: (['properties', props.id])
+      // rating: 5,
+      // description: "The Football Is Good For Training And Recreational Purposes",
+      // beds: 5,
+      // price: 871,
+      // userId: 337,
+      // img: 'img',
+      // baths: 2,
+    }
+  }
+  
+}
 
-const hoc = reduxForm({form: 'createProperty'})(PropertiCreate);
+
+// const mapStateToProps = (state, props) => ({
+//   initialValues: state.initialName
+  
+// })
+
+PropertiUpdate = reduxForm({
+  form: "updateProperty",
+  onSubmit: values => console.log('sended', values),
+  // enableReinitialize : true
+})(PropertiUpdate)
+
+PropertiUpdate = connect(
+  mapStateToProps,
+  // state => ({
+  //   initialValues: state,
+     
+  // })
+)(PropertiUpdate);
+
+export default PropertiUpdate;
+
+
+
+
+
+// const hoc = reduxForm({form: 'updateProperty'})(PropertiUpdate);
 
 //@ts-ignore
-hoc.getInitialProps = ctx => PropertiCreate.getInitialProps ? PropertiCreate.getInitialProps(ctx) : {};
-
-export default hoc;
-
+// hoc.getInitialProps = ctx => PropertiUpdate.getInitialProps ? PropertiUpdate.getInitialProps(ctx) : {};
+// export default hoc;
 
 
-
-
-
-
-
-
-
-     {/* <Field  
-            component="select"
-            className="bg-gray-100 
-                                rounded 
-                                border 
-                                border-gray-400 
-                                leading-normal 
-                                resize-none 
-                                w-full 
-                                h-20 
-                                py-2 
-                                px-3 
-                                font-medium 
-                                placeholder-gray-700 
-                                focus:outline-none 
-                                focus:bg-white 
-                                text-black" 
-                    name="userId" 
-                    placeholder='userId'>
-      <option>USER</option>
-      <option value="ff0000">Red</option>
-      <option value="00ff00">Green</option>
-      <option value="0000ff">Blue</option>
-      </Field> */}
-
-
-
-      // export function withForm(options) {
-      //   return Child => {
-      //     const hoc = reduxForm(options)(Child);
-      //     hoc.getInitialProps = ctx => Child.getInitialProps ? Child.getInitialProps(ctx) : {};
-      //     return hoc;
-      //   };
-      // }

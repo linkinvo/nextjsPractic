@@ -22,7 +22,7 @@ export interface AppState {
 
 const initialEntities = fromJS({});  
 
-function entities(state = initialEntities, action: any) {
+ export const entities = (state = initialEntities, action: any)=> {
     switch (action.type) {    
         case SET_ALL_DATA_SCHEMA:
             if (action.response && action.response.entities) {
